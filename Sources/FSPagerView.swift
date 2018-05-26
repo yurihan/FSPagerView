@@ -44,6 +44,10 @@ public protocol FSPagerViewDelegate: NSObjectProtocol {
     @objc(pagerView:didSelectItemAtIndex:)
     optional func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int)
     
+    /// Tells the delegate that the item at the specified index was selected.
+    @objc(pagerView:didDeselectItemAt:)
+    optional func pagerView(_ pagerView: FSPagerView, didDeselectItemAt index: Int)
+    
     /// Tells the delegate that the specified cell is about to be displayed in the pager view.
     @objc(pagerView:willDisplayCell:forItemAtIndex:)
     optional func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int)
@@ -84,7 +88,7 @@ public enum FSPagerViewScrollDirection: Int {
 open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
     
     // MARK: - Public properties
-
+    
     @IBOutlet open weak var dataSource: FSPagerViewDataSource?
     @IBOutlet open weak var delegate: FSPagerViewDelegate?
     
@@ -322,6 +326,14 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     
     public func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         guard let function = self.delegate?.pagerView(_:didHighlightItemAt:) else {
+            return
+        }
+        let index = indexPath.item % self.numberOfItems
+        function(self,index)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let function = self.delegate?.pagerView(_:didDeselectItemAt:) else {
             return
         }
         let index = indexPath.item % self.numberOfItems

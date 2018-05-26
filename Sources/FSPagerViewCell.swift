@@ -68,9 +68,11 @@ open class FSPagerViewCell: UICollectionViewCell {
         set {
             super.isHighlighted = newValue
             if newValue {
-                self.selectedForegroundView?.layer.backgroundColor = self.selectionColor.cgColor
+                //self.selectedForegroundView?.layer.backgroundColor = self.selectionColor.cgColor
+                self.contentView.layer.shadowColor = UIColor(red: 253.0/255.0, green: 150.0/255.0, blue: 177.0/255.0, alpha: 1.0).cgColor
             } else if !super.isSelected {
-                self.selectedForegroundView?.layer.backgroundColor = UIColor.clear.cgColor
+                //self.selectedForegroundView?.layer.backgroundColor = UIColor.clear.cgColor
+                self.contentView.layer.shadowColor = UIColor.black.cgColor
             }
         }
         get {
@@ -81,7 +83,8 @@ open class FSPagerViewCell: UICollectionViewCell {
     open override var isSelected: Bool {
         set {
             super.isSelected = newValue
-            self.selectedForegroundView?.layer.backgroundColor = newValue ? self.selectionColor.cgColor : UIColor.clear.cgColor
+            //self.selectedForegroundView?.layer.backgroundColor = newValue ? self.selectionColor.cgColor : UIColor.clear.cgColor
+            self.contentView.layer.shadowColor = newValue ? UIColor(red: 253.0/255.0, green: 150.0/255.0, blue: 177.0/255.0, alpha: 1.0).cgColor : UIColor.black.cgColor
         }
         get {
             return super.isSelected
@@ -103,7 +106,7 @@ open class FSPagerViewCell: UICollectionViewCell {
         self.backgroundColor = UIColor.clear
         self.contentView.layer.shadowColor = UIColor.black.cgColor
         self.contentView.layer.shadowRadius = 5
-        self.contentView.layer.shadowOpacity = 0.75
+        self.contentView.layer.shadowOpacity = 1.0
         self.contentView.layer.shadowOffset = .zero
     }
     
@@ -138,7 +141,7 @@ open class FSPagerViewCell: UICollectionViewCell {
             selectedForegroundView.frame = self.contentView.bounds
         }
     }
-
+    
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == kvoContext {
             if keyPath == "font" {
